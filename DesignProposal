@@ -1,0 +1,162 @@
+1. Project Goal
+Build a low-fidelity wireframe in Figma (plus optional high-fidelity mockup) for a coworking workspace platform.
+The wireframe must show:
+
+Clear navigation
+
+All MVP pages
+
+Logical user flow for both Coworkers and Owners
+
+
+2. MVP Required Pages
+Landing Page
+
+Sign Up Page
+
+Login Page
+
+Owner Dashboard
+
+Add Property Page
+
+Add Workspace Page
+
+My Properties Page
+
+List of Workspaces (Search Results)
+
+Workspace Details Page
+
+
+3. User Flow Diagram
+
+Landing Page
+     ↓
+Login / Sign Up
+     ↓
+Role selection
+   ↓       ↓
+Coworker   Owner
+   ↓       ↓
+Search    Dashboard
+   ↓       ↓
+Results   Add Property
+   ↓       ↓
+Details   Add Workspace
+   ↓       ↓
+
+
+
+4. Page-by-Page Annotated Wireframes (with pixel dimensions)
+Figma settings: Frame size = 1440 × 1024 (desktop)
+Grid: 12 columns, gutter 24px, margins 120px left/right
+
+Page 1 – Landing Page
+Element	Dimensions / Position
+Logo	Top-left, 120px from left, 40px from top, 120×40px
+Navbar links (Search, Login, Sign Up)	Right side, 120px from right, 40px top, spacing 32px
+Hero heading	Top: 200px, Center aligned, width 800px
+Hero subheading	Below heading, 16px gap
+Search bar	Width 600px, height 56px, centered below subheading
+Search button	Width 120px, height 56px, same row as search bar
+Featured workspaces (3 cards)	Y: 500px, each card: 360×280px, gap 24px, centered
+Footer	Y: 900px, height 120px, full width
+Card layout (360×280px):
+
+Image placeholder: 360×160px
+
+Type + price row: 16px below image
+
+Seats + neighborhood row: 8px below
+
+Page 2 – Sign Up Page
+Element	Position
+Form container	Width 480px, centered, Y: 150px
+Full name input	Width 100%, height 48px
+Email input	Below, same size
+Phone input	Below
+Password + Confirm	Side by side (230px each)
+Role selection (Coworker/Owner)	Radio buttons horizontally
+Create account button	Width 100%, height 48px, primary color
+Login link	Below button, centered
+Page 3 – Login Page
+Same as Sign Up but:
+
+Only Email + Password
+
+No role selection
+
+“Forgot password?” link
+
+“No account? Sign Up” link
+
+Page 4 – Owner Dashboard
+Section	Layout
+Page title	Top-left, Y: 80px
+[+ Add Property] button	Top-right, same row
+My Properties section	Y: 160px, grid of property cards (2 columns, 360px each)
+Each property card	360×200px, contains address, sq ft, amenities, [Edit][Delete][Add Workspace]
+My Workspaces section	Below properties, Y: 500px, same card grid
+Workspace card	Shows type, seats, price, property name, [Edit][Delete]
+Page 5 – Add Property Page
+Field	Type	Width
+Address	Text input	100%
+Neighborhood	Dropdown	100%
+Square feet	Number input	100%
+Parking garage	Checkbox	inline
+Near transit	Checkbox	inline
+Save button	Primary	200px
+Form container: 600px wide, centered.
+
+Page 6 – Add Workspace Page
+Field	Type
+Select Property	Dropdown (populated from My Properties)
+Workspace type	Dropdown (Meeting Room / Private Office / Hot Desk / Dedicated Desk)
+Seating capacity	Number input
+Smoking allowed	Radio (Yes/No)
+Availability date	Date picker
+Lease term	Dropdown (Day/Week/Month/Year)
+Price	Number input ($)
+Save button	Primary
+Form width: 600px, centered.
+
+Page 7 – My Properties Page
+Same as Dashboard’s “My Properties” section but full page
+
+No “My Workspaces” section here
+
+Each property card has [View Workspaces] button that opens a modal or filters below
+
+Delete button triggers a confirmation dialog (wireframe note)
+
+Page 8 – List of Workspaces (Search Results)
+Layout: Two columns
+
+Left (Filters)	Right (Results)
+Width: 280px	Width: 880px
+Price slider (mock as two number inputs)	Grid of workspace cards (3 columns, 280px each)
+Seats min/max	Each card: 280×320px
+Parking (checkbox)	Image placeholder, type, seats, price, property, [View Details]
+Transit (checkbox)	
+Workspace type dropdown	
+Sort by dropdown	
+Position:
+Filters start at Y: 120px
+Results start at same Y
+
+Page 9 – Workspace Details Page
+Section	Position / Size
+Main image	600×400px, left side
+Details panel	480px wide, right side
+Details include: type, seats, price, lease term, availability date	
+Property info (parking, transit, address)	Below image
+Owner contact (name, email, phone)	Below property info
+[Contact Owner] button	200px wide, primary color
+Y position: 120px from top
+Container width: 1200px, centered
+
+
+
+
+Contact   My Properties
