@@ -1,33 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shared Workspace</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Sign up</title>
 </head>
 <body>
+    
+   <h2>User Sign-Up</h2>
+    
+    <form id="signupForm">
+        <p>
+            <label>Full Name:</label><br>
+            <input type="text" id="fullName" required minlength="2">
+        </p>
 
-<header>
-    <h1>WorkspaceHub</h1>
+        <p>
+            <label>Phone Number:</label><br>
+            <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="1234567890">
+        </p>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-        <a href="dashboard.html">Dashboard</a>
-    </nav>
-</header>
+        <p>
+            <label>Email (Username):</label><br>
+            <input type="email" id="email" required>
+        </p>
 
-<section class="hero">
-    <div class="hero-card">
-        <h2>Find Your Perfect Workspace</h2>
-        <p>Modern coworking spaces for teams and freelancers.</p>
+        <p>
+            <label>Select Role:</label><br>
+            <select id="role" required>
+                <option value="Role 1">Role 1</option>
+                <option value="Role 2">Role 2</option>
+                <option value="Role 3">Role 3</option>
+            </select>
+        </p>
 
-        <a href="login.html" class="btn">Get Started</a>
-    </div>
-</section>
+        <button type="submit">Add User</button>
+    </form>
 
-<footer>
-    <p>© 2026 WorkspaceHub</p>
-</footer>
-
+  <script src="main.js"></script>
 </body>
 </html>
