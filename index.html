@@ -9,15 +9,20 @@
     
    <h2>User Sign-Up</h2>
     
-    <form id="signupForm">
+    <form id="signupForm" novalidate>
         <p>
-            <label>Full Name:</label><br>
-            <input type="text" id="fullName" required minlength="2">
+            <label>First Name:</label><br>
+            <input type="text" id="firstName">
+        </p>
+
+         <p>
+            <label>Last Name:</label><br>
+            <input type="text" id="lastName">
         </p>
 
         <p>
             <label>Phone Number:</label><br>
-            <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="1234567890">
+            <input type="tel" id="phone" placeholder="EX: 1234567890">
         </p>
 
         <p>
@@ -28,13 +33,15 @@
         <p>
             <label>Select Role:</label><br>
             <select id="role" required>
-                <option value="Role 1">Owner</option>
-                <option value="Role 2">Coworker</option>
+                <option value="Role 1">Role 1</option>
+                <option value="Role 2">Role 2</option>
+                <option value="Role 3">Role 3</option>
             </select>
         </p>
 
         <button type="submit">Add User</button>
     </form>
+       <p id="formMessage"></p>
 
   <script src="main.js"></script>
 </body>
