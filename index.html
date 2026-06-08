@@ -1,48 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+  <meta charset="UTF-8">
+  <title>Workspace Finder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-   <h2>User Sign-Up</h2>
-    
-    <form id="signupForm" novalidate>
-        <p>
-            <label>First Name:</label><br>
-            <input type="text" id="firstName">
-        </p>
 
-         <p>
-            <label>Last Name:</label><br>
-            <input type="text" id="lastName">
-        </p>
+  <div class="container">
+    <h1>🔍 Find a Workspace</h1>
 
-        <p>
-            <label>Phone Number:</label><br>
-            <input type="tel" id="phone" placeholder="EX: 1234567890">
-        </p>
+   
+    <div class="filters">
+      <input type="text" id="location" placeholder="Neighborhood">
 
-        <p>
-            <label>Email (Username):</label><br>
-            <input type="email" id="email" required>
-        </p>
+      <input type="number" id="maxPrice" placeholder="Max Price">
 
-        <p>
-            <label>Select Role:</label><br>
-            <select id="role" required>
-                <option value="Role 1">Role 1</option>
-                <option value="Role 2">Role 2</option>
-                <option value="Role 3">Role 3</option>
-            </select>
-        </p>
+      <input type="number" id="minSeats" placeholder="Min Seats">
 
-        <button type="submit">Add User</button>
-    </form>
-       <p id="formMessage"></p>
+      <select id="smoking">
+        <option value="">Smoking?</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
 
-  <script src="main.js"></script>
+      <button onclick="search()">Search</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results"></div>
+
+    <!-- DETAILS -->
+    <div id="details"></div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
