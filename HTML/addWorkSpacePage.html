@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
 
+    </header>
+
+    <main>
+        <h1>Add a Property</h1>
+        <form id="property">
+            <fieldset>
+                <legend>Workspace</legend>
+                <table border="1">
+                    <tbody>
+                        <tr>
+                            <td><label for="type">Workspace Type:</label></td>
+                            <td>
+                                <select name="type" id="type">
+                                    <option value="">Please choose an option</option>
+                                    <option value="meet">Meeting room</option>
+                                    <option value="private">Private office</option>
+                                    <option value="open">Open desk</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="seats">Enter number of seats:</label></td>
+                            <td><input type="number" id="seats" name="seats" placeholder="Enter seats"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="smoke">Smokable area?:</label></td>
+                            <td>Yes/No<input type="checkbox" id="smoke" name="smoke"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="date ">Enter available date:</label></td>
+                            <td><input type="date" id="date" name="date"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="term">Lease term:</label></td>
+                            <td><input type="number" id="term" name="term" placeholder="Enter term's duration"><select name="dwm" id="dwm">
+                                <option value="">days, weeks, or months</option>
+                                <option value="day">days</option>
+                                <option value="week">weeks</option>
+                                <option value="month">months</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td><button>Cancel</button></td>
+                            <td><button type="submit">Submit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </form>
+    </main>
+
+    <footer>
+
+    </footer>
+    <script src="#"></script>
+</body>
+</html>
