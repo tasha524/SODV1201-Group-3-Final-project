@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+  <meta charset="UTF-8">
+  <title>Workspace Finder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-   <h2>User Sign-Up</h2>
-    
-    <form id="signupForm">
-        <p>
-            <label>Full Name:</label><br>
-            <input type="text" id="fullName" required minlength="2">
-        </p>
 
-        <p>
-            <label>Phone Number:</label><br>
-            <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="1234567890">
-        </p>
+  <div class="container">
+    <h1>🔍 Find a Workspace</h1>
 
-        <p>
-            <label>Email (Username):</label><br>
-            <input type="email" id="email" required>
-        </p>
+   
+    <div class="filters">
+      <input type="text" id="location" placeholder="Neighborhood">
 
-        <p>
-            <label>Select Role:</label><br>
-            <select id="role" required>
-                <option value="Role 1">Owner</option>
-                <option value="Role 2">Coworker</option>
-            </select>
-        </p>
+      <input type="number" id="maxPrice" placeholder="Max Price">
 
-        <button type="submit">Add User</button>
-    </form>
+      <input type="number" id="minSeats" placeholder="Min Seats">
 
-  <script src="main.js"></script>
+      <select id="smoking">
+        <option value="">Smoking?</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <button onclick="search()">Search</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results"></div>
+
+    <!-- DETAILS -->
+    <div id="details"></div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
