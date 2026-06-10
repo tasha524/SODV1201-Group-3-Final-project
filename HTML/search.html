@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Properties</title>
+</head>
+<body>
+
+    <h1>Properties and Workspaces</h1>
+
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search Property">
+
+    <button onclick="searchProperties()">
+        Search
+    </button>
+
+    <br><br>
+
+    <select id="sortSelect"
+            onchange="sortProperties()">
+
+        <option value="name">
+            Sort By Name
+        </option>
+
+        <option value="city">
+            Sort By City
+        </option>
+    </select>
+
+    <br><br>
+
+    <div id="results"></div>
+
+    <script src="search.js"></script>
+
+</body>
+</html>
