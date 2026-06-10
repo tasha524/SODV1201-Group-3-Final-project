@@ -11,8 +11,28 @@
     </header>
 
     <main>
-        <h1>Add a Property</h1>
-        <form id="property">
+        <h1>Add a Workspace</h1>
+        <form id="workspace">
+            <fieldset>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <label for="properties">Search a property by Zip-Code</label>
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" id="propertySearch" autocomplete="postal-code" required>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
             <fieldset>
                 <legend>Workspace</legend>
                 <table border="1">
@@ -21,7 +41,7 @@
                             <td><label for="type">Workspace Type:</label></td>
                             <td>
                                 <select name="type" id="type">
-                                    <option value="">Please choose an option</option>
+                                    <option value="" disabled selected>Please choose an option</option>
                                     <option value="meet">Meeting room</option>
                                     <option value="private">Private office</option>
                                     <option value="open">Open desk</option>
@@ -30,20 +50,20 @@
                         </tr>
                         <tr>
                             <td><label for="seats">Enter number of seats:</label></td>
-                            <td><input type="number" id="seats" name="seats" placeholder="Enter seats"></td>
+                            <td><input type="number" id="seats" name="seats" placeholder="Enter seats" required></td>
                         </tr>
                         <tr>
                             <td><label for="smoke">Smokable area?:</label></td>
                             <td>Yes/No<input type="checkbox" id="smoke" name="smoke"></td>
                         </tr>
                         <tr>
-                            <td><label for="date ">Enter available date:</label></td>
-                            <td><input type="date" id="date" name="date"></td>
+                            <td><label for="date">Enter available date:</label></td>
+                            <td><input type="date" id="date" name="date" required></td>
                         </tr>
                         <tr>
                             <td><label for="term">Lease term:</label></td>
                             <td><input type="number" id="term" name="term" placeholder="Enter term's duration"><select name="dwm" id="dwm">
-                                <option value="">days, weeks, or months</option>
+                                <option value="" disabled selected>days, weeks, or months</option>
                                 <option value="day">days</option>
                                 <option value="week">weeks</option>
                                 <option value="month">months</option>
@@ -57,11 +77,12 @@
                 </table>
             </fieldset>
         </form>
+        <div id="workspaces"></div>
     </main>
 
     <footer>
 
     </footer>
-    <script src="#"></script>
+    <script type="module" src="../js/addWorkspace.js"></script>
 </body>
 </html>
