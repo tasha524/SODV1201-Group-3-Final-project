@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/style.css">
+    <title>Properties</title> 
+</head>
+<body>
+
+    <header class="universal-header">
+    <table class="nav-table-container" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td class="nav-logo-cell">
+                    <a href="index.html" class="logo-brand">
+                        BRAND LOGO
+                    </a>
+                </td>
+
+                <td class="nav-menu-cell">
+                    <ul class="nav-menu">
+                        <li><a href="/HTML/propertyDetails.html" class="nav-link active">Details</a></li>
+                        <li><a href="/HTML/search.html" class="nav-link">Search Listings</a></li>
+                        <li><a href="/HTML/addPropertyPage.html" class="nav-link">Add Property</a></li>
+                        <li><a href="/HTML/addWorkSpacePage.html" class="nav-link">Add Workplace</a></li>
+                    </ul>
+                </td>
+
+                <td class="nav-action-cell" align="right">
+                    <div class="nav-search-box">
+                        <input type="text" class="nav-search-input" placeholder="Quick Search...">
+                        </div>
+                <td class="nav-menu-cell">
+                    <ul class="nav-menu">
+                        <li><a href="/HTML/login.html" class="nav-link">Login</a></li>
+                        <!-- Swap these out if logged in -->
+                    </ul>
+                </td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</header>
+
+    <h1>Properties and Workspaces</h1>
+
+    <form id="property">
+    <fieldset>
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search Property">
+
+    <button onclick="searchProperties()">
+        Search
+    </button>
+
+    <br><br>
+
+    <select id="sortSelect"
+            onchange="sortProperties()">
+
+        <option value="name">
+            Sort By Name
+        </option>
+
+        <option value="city">
+            Sort By City
+        </option>
+    </select>
+    </fieldset>
+    </form>
+
+    <br><br>
+
+    <div id="results"></div>
+
+    <footer id="footer"></footer>
+    <script>
+    document.getElementById("footer").innerText = "Copywrite " + new Date().getFullYear() + " Company";
+    </script>
+    <script src="search.js"></script>
+
+</body>
+</html>
