@@ -21,24 +21,21 @@
                     </td>
 
                     <td class="nav-menu-cell">
-                            <ul class="nav-menu">
-                                
-                                <li><a href="search.html" class="nav-link">Search Listings</a></li>
-                                <li><a href="addPropertyPage.html" class="nav-link">Add Property</a></li>
-                                <li><a href="addWorkSpacePage.html" class="nav-link">Add Workplace</a></li>
-                            </ul>
-                        </td>
+                        <ul class="nav-menu">
+                            <li><a href="search.html" class="nav-link">Search Listings</a></li>
+                            <li><a href="addPropertyPage.html" class="nav-link">Add Property</a></li>
+                            <li><a href="addWorkSpacePage.html" class="nav-link">Add Workplace</a></li>
+                        </ul>
+                    </td>
 
                     <td class="nav-action-cell" align="right">
                         <div class="nav-search-box">
                             <input type="text" class="nav-search-input" placeholder="Quick Search...">
                         </div>
-                    <td class="nav-menu-cell">
+                    </td> <td class="nav-menu-cell">
                         <ul class="nav-menu">
                             <li><a href="login.html" class="nav-link">Login</a></li>
-                            <!-- Swap these out if logged in -->
                         </ul>
-                    </td>
                     </td>
                 </tr>
             </tbody>
@@ -47,28 +44,22 @@
 
     <h1>Properties and Workspaces</h1>
 
-    <form id="property">
+    <div id="property-filter-panel">
         <fieldset>
             <input type="text" id="searchBox" placeholder="Search Property">
 
-            <button onclick="searchProperties()">
+            <button type="button" onclick="searchProperties()">
                 Search
             </button>
 
             <br><br>
 
             <select id="sortSelect" onchange="sortProperties()">
-
-                <option value="name">
-                    Sort By Name
-                </option>
-
-                <option value="city">
-                    Sort By City
-                </option>
+                <option value="name">Sort By Name</option>
+                <option value="city">Sort By City</option>
             </select>
         </fieldset>
-    </form>
+    </div>
 
     <br><br>
 
