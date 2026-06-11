@@ -255,3 +255,29 @@ footer {
     max-width: fit-content;    
     display: block;           
 }
+
+/* Container to hold the cards side-by-side */
+.workspaceCard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* The individual cards created by JavaScript */
+.workspaceCard .space {
+    background: white;
+    border: 1px solid #1A365D; 
+    border-radius: 6px;
+    padding: 15px;
+    width: 250px;
+}
+
+.workspaceCard .space h3 {
+    margin: 0 0 10px 0;
+    color: #18437f;
+}
+
+.workspaceCard .space p {
+    margin: 5px 0;
+}
