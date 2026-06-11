@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS\style.css">
+    <title>Sign up</title>
+</head>
+
+<body>
+
+    <header class="universal-header">
+        <table class="nav-table-container" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td class="nav-logo-cell">
+                        <a href="index.html" class="logo-brand">
+                            BRAND LOGO
+                        </a>
+                    </td>
+
+                    <td class="nav-menu-cell">
+                        <ul class="nav-menu">
+                            <p>Already have an Account?</p>
+                            <li><a href="/HTML/login.html" class="nav-link">Login</a></li>
+                            <!-- Swap these out if logged in -->
+
+                        </ul>
+                    </td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </header>
+
+    <h1>User Sign-Up</h1>
+
+    <form id="signupForm" novalidate>
+        <p>
+            <label>First Name:</label><br>
+            <input type="text" id="firstName">
+        </p>
+
+        <p>
+            <label>Last Name:</label><br>
+            <input type="text" id="lastName">
+        </p>
+
+        <p>
+            <label>Phone Number:</label><br>
+            <input type="tel" id="phone" placeholder="EX: 1234567890">
+        </p>
+
+        <p>
+            <label>Email (Username):</label><br>
+            <input type="email" id="email" required>
+
+        </p>
+
+        <p>
+            <label>Password:</label><br>
+            <input type="password" id="password" required>
+        </p>
+
+        <p>
+            <label>Select Role:</label><br>
+            <select id="role" required>
+                <option value="owner">Owner</option>
+                <option value="coworker">Coworker</option>
+            </select>
+        </p>
+
+        <button type="submit">Add User</button>
+    </form>
+    <p id="formMessage"></p>
+
+    <footer id="footer"></footer>
+    <script>
+        document.getElementById("footer").innerText = "© " + new Date().getFullYear() + " Shared Workspace";
+    </script>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

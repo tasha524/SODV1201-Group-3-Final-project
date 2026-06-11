@@ -1,0 +1,242 @@
+/* GLOBAL */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #2D3748;
+  background-color: #f8f4ef;
+  margin: 0;
+}
+
+.wrapper-container {
+  display: flex;                  
+  justify-content: center;        
+  align-items: center;            
+  min-height: 100vh;              
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #18437f;
+}
+
+.container {
+  max-width: 80%;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+    text-decoration: none;
+    font-family: inherit;
+    background-color: #1A365D;
+    color: #FFFFFF;
+}
+
+button:hover {
+  border: 1px solid #1A365D;
+  background-color: #f8f4ef;
+  color: #1A365D;
+
+}
+
+
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #1A365D;
+  background: white;
+  font-size: 18px;
+  max-width: fit-content;
+  margin: 5% auto;
+}
+
+
+form td {
+  padding: 2%;
+}
+
+.checkbox {
+  border: 2px solid #1A365D;
+}
+
+
+/* HEADER */
+.universal-header {
+    background-color: #18437f; /* Deep Executive Blue */
+    color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 3vh;
+    margin-bottom: 5vh;
+}
+
+.logo-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 24px;
+    flex-wrap: wrap;
+
+}
+
+.nav-link {
+    color: #E2E8F0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover, 
+.nav-link.active {
+    color: #FFFFFF;
+    border-bottom: 2px solid #5C4E43; /* Warm Slate-Brown accent line */
+}
+
+/* Search Bar Component in Navigation */
+.nav-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-search-input {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    padding: 8px 16px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    width: 200px;
+}
+
+.nav-search-input::placeholder {
+    color: #CBD5E0;
+}
+
+.nav-search-input:focus {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: #CBD5E0;
+}
+
+
+/* LANDING */
+
+input,
+select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+}
+
+#results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  margin: 0 0 10px;
+}
+
+.card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+
+#details {
+  margin-top: 40px;
+  padding: 25px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+/*  */
+
+table {
+  border: none;
+}
+
+/* ADD WORKSPACE */
+
+#workspace {
+  display: flex;
+  flex-direction: column;
+  max-width: 30%;
+}
+
+/* LOG IN */
+#login {
+  display: flex;
+  flex-direction: column;
+  max-width: 30%;
+}
+
+/* Sign UP */
+
+#signupForm {
+  padding: 1% 10%;
+}
+
+.hero {
+  margin-bottom: 3%;
+}
+
+/* FOOTER */
+
+footer {
+  /* max-width: 1200px; */
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+    gap: 20px;
+    background-color: #18437f; /* Dark Neutral Anchor */
+    color: #A0AEC0;
+    padding: 30px 20px;
+    margin-top: auto;
+    font-size: 0.9rem;
+    border-top: 4px solid #5C4E43;
+}
