@@ -1,46 +1,32 @@
-// Sample users
-
-let users = [
-{
-    id: 1,
-    name: "John",
-    email: "owner@test.com",
-    password: "123",
-    role: "owner"
-},
-{
-    id: 2,
-    name: "Sarah",
-    email: "coworker@test.com",
-    password: "123",
-    role: "coworker"
-}
-];
 
 function login() {
-
-    let email =
-        document.getElementById("email").value;
-
-    let password =
-        document.getElementById("password").value;
-
-    let user = users.find(u =>
-        u.email === email &&
-        u.password === password
-    );
-
-    if(user){
-
-        localStorage.setItem(
-            "loggedUser",
-            JSON.stringify(user)
-        );
-
-        window.location.href =
-            "search.html";
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email || !password) {
+        alert('Please enter both email and password');
+        return;
     }
-    else{
-        alert("Invalid Login");
-    }
+    
+    fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Store the JWT token and user data
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('loggedUser', JSON.stringify(data.user));
+            
+            // Redirect to home page
+            window.location.href = '../index.html';
+        } else {
+            alert(data.message || 'Login failed');
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
 }
