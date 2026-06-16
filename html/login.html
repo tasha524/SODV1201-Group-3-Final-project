@@ -30,15 +30,12 @@ Email: coworker@test.com  Password: 123
                         </a>
                     </td>
 
-
                     <td class="nav-menu-cell">
                         <ul class="nav-menu">
                             <li><a href=""></a></li>
-                            <p>Dont have an Account?</p>
-                            <!-- Swap these out if logged in -->
+                            <p>Don't have an Account?</p>
                             <li><a href="register.html" class="nav-link">Sign Up</a></li>
                         </ul>
-                    </td>
                     </td>
                 </tr>
             </tbody>
@@ -47,17 +44,18 @@ Email: coworker@test.com  Password: 123
 
     <h1>Workspace Login</h1>
 
-    <form id="login">
+    <form id="loginForm" onsubmit="return false;">
         <input type="email" id="email" placeholder="Email">
         <br><br>
 
         <input type="password" id="password" placeholder="Password">
         <br><br>
 
-        <button onclick="login()">Login</button>
+        <button type="button" onclick="login()">Login</button>
     </form>
 
     <footer id="footer"></footer>
+    
     <script>
         document.getElementById("footer").innerText = "© " + new Date().getFullYear() + " Shared Workspace";
     </script>
