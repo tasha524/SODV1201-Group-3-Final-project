@@ -1,25 +1,25 @@
 const usersList = [];
 
-const message = document.getElementById("formMessage")
+const message = document.getElementById("formMessage");
 
-document.getElementById("signupForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Stop page reload
+document.getElementById("submitBtn").addEventListener("click", function (event) {
+    event.preventDefault();
 
-    // 1. Get the values
+    //Get the values
     const fName = document.getElementById("firstName").value;
     const lName = document.getElementById("lastName").value;
     const phone = document.getElementById("phone").value;
     const email = document.getElementById("email").value;
     const role = document.getElementById("role").value;
-    const password= document.getElementById("password").value;
+    const password = document.getElementById("password").value;
 
-    // 2. Simple Validation (Check if any field is empty)
-    if (fName === "" || lName ==="" ||phone === "" || email === "" || role === "" || password ==="") {
-        message.innerText="Error! All feilds are required";
+    // Simple Validation (Check if any field is empty)
+    if (fName === "" || lName === "" || phone === "" || email === "" || role === "" || password === "") {
+        message.innerText = "Error! All feilds are required";
         return; // Stop right here
     }
 
-     // Email Validation
+    // Email Validation
     const emailValidation = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValidation.test(email)) {
         message.innerText = "Please enter a valid email address.";
@@ -37,28 +37,28 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
     const nameValidation = /\d/;
 
     if (nameValidation.test(fName)) {
-    message.innerText = "Error! Name cannot contain numbers.";
-    return; 
-}
+        message.innerText = "Error! Name cannot contain numbers.";
+        return;
+    }
 
-if (fName.length < 2 || fName.length > 13 ){
-    message.innerText = "Error! First Name Must Be Between 2 - 13 characters ";
-    return;
-}
+    if (fName.length < 2 || fName.length > 13) {
+        message.innerText = "Error! First Name Must Be Between 2 - 13 characters ";
+        return;
+    }
 
-  if (nameValidation.test(lName)) {
-    message.innerText = "Error! Name cannot contain numbers.";
-    return; 
-}
+    if (nameValidation.test(lName)) {
+        message.innerText = "Error! Name cannot contain numbers.";
+        return;
+    }
 
-if (lName.length < 2 || lName.length > 13 ){
-    message.innerText = "Error! Last Name Must Be Between 2 - 13 characters ";
-    return;
-}
+    if (lName.length < 2 || lName.length > 13) {
+        message.innerText = "Error! Last Name Must Be Between 2 - 13 characters ";
+        return;
+    }
 
-//passward validation
+    //passward validation
 
-// make sure password is minimum 8 characters
+    // make sure password is minimum 8 characters
     if (password.length < 8) {
         message.innerText = "Error! Password must be at least 8 characters long.";
         return;
@@ -75,34 +75,34 @@ if (lName.length < 2 || lName.length > 13 ){
         message.innerText = "Error! Password must contain at least one uppercase letter.";
         return;
     }
-      //one lowercase letter 
+    //one lowercase letter 
     if (!/[a-z]/.test(password)) {
         message.innerText = "Error! Password must contain at least one lowercase letter.";
         return;
     }
-//one digit
+    //one digit
     if (!/\d/.test(password)) {
         message.innerText = "Error! Password must contain at least one number.";
         return;
     }
 
-   
+
     // at least 1 special character
     if (!/[@#$%^&+=!]/.test(password)) {
         message.innerText = "Error! Password must contain at least one special character (@#$%^&+=!).";
         return;
     }
-message.innerText = "From Validation sucessful!";
+    message.innerText = "From Validation sucessful!";
 
     // 3. Create the person object
-    const person = { 
-        firstName: fName, 
-        lastName: lName, 
-        phone: phone, 
-        email: email, 
+    const person = {
+        firstName: fName,
+        lastName: lName,
+        phone: phone,
+        email: email,
         password: password,
         role: role
-       
+
     };
 
     // 4. Push to the array
@@ -111,5 +111,44 @@ message.innerText = "From Validation sucessful!";
     // See it working in the console
     console.log(usersList);
 
-    document.getElementById("signupForm").reset();
+    //get the online database server adress
+    fetch("http://localhost:3001/Data", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(person)
+    })
+        .then(response => {
+            if (!response.ok) {
+                //if the reponse was not good then throw an error
+                return response.json().then(err => { throw new Error(err.error) });
+            }
+            //else return the respone
+            return response.json();
+        })
+        .then(data => {
+            let userId = "Created successfully";
+
+            if (data && data.UserID) {
+                userId = data.UserID;
+            }
+            message.style.color = "green";
+            message.innerText = "Success! Account created. Status: " + userId;
+
+            //Give the user 3 seconds to read the message
+            setTimeout(() => {
+                const formElement = document.getElementById("signupForm");
+                if (formElement) {
+                    formElement.reset();
+                }
+            }, 3000);
+        })
+        .catch(error => {
+            // if any errors are found
+            console.error("Signup Error:", error);
+            message.style.color = "red";
+            message.innerText = "Server Error: " + error.message;
+        });
+
 });
