@@ -54,3 +54,28 @@ document.getElementById("workspace").addEventListener("submit", function(event) 
 
     document.getElementById("workspace").reset();
 });
+
+
+fetch("http://localhost:3001/Workspaces",{
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+
+        PropertyID: properties,
+        WorkspaceType: worskpaceType,
+        Seats: seats,
+        Smoke: smoke,
+        Date: date,
+        LeaseTerm: leaseTerm,
+        LeaseTermUnit: dwm
+
+    })
+})
+.then(response=>response.json())
+.then(data=>{
+
+    console.log(data);
+
+});
