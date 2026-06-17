@@ -59,6 +59,77 @@ db.run(`CREATE TABLE IF NOT EXISTS Properties (
 	
     CreatedAt       DATETIME        DEFAULT CURRENT_TIMESTAMP
 )`);
+
+// GET all properties
+app.get("/properties", (req, res) => {
+    db.all("SELECT * FROM Properties ORDER BY CreatedAt DESC", [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// POST a new property
+app.post("/properties", (req, res) => {
+    const { address, neighborhood, sqft, garage, transit } = req.body;
+    
+    // Validate required fields
+    if (!address || !neighborhood || !sqft) {
+        return res.status(400).json({ 
+            error: "Address, neighborhood, and sqft are required!" 
+        });
+    }
+
+    db.run(`
+        INSERT INTO Properties (address, neighborhood, sqft, garage, transit)
+        VALUES (?, ?, ?, ?, ?)
+    `, [address, neighborhood, sqft, garage, transit], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({
+            message: "Property added successfully!",
+            propertyID: this.lastID
+        });
+    });
+});
+
+// DELETE a property
+app.delete("/properties/:id", (req, res) => {
+    const propertyId = req.params.id;
+
+    db.run("DELETE FROM Properties WHERE PropertyID = ?", [propertyId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Property not found" });
+        }
+        res.json({ message: `Property with ID ${propertyId} deleted successfully.` });
+    });
+});
+
+// UPDATE a property 
+app.put("/properties/:id", (req, res) => {
+    const propertyId = req.params.id;
+    const { address, neighborhood, sqft, garage, transit } = req.body;
+
+    db.run(`
+        UPDATE Properties 
+        SET address = ?, neighborhood = ?, sqft = ?, garage = ?, transit = ?
+        WHERE PropertyID = ?
+    `, [address, neighborhood, sqft, garage, transit, propertyId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Property not found" });
+        }
+        res.json({ message: `Property with ID ${propertyId} updated successfully.` });
+    });
+});
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
