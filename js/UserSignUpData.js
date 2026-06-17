@@ -183,3 +183,112 @@ app.delete("/data/:id", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+// Add Workspace table
+db.run(`CREATE TABLE IF NOT EXISTS Workspaces (
+    WorkspaceID     INTEGER PRIMARY KEY AUTOINCREMENT,
+    PropertyID      INTEGER,
+    WorkspaceType   VARCHAR(100) NOT NULL,
+    Seats           INTEGER NOT NULL,
+    Smoke           VARCHAR(10) NOT NULL,
+    DateAvailable   DATE NOT NULL,
+    LeaseTerm       VARCHAR(50) NOT NULL,
+    DWM             VARCHAR(50) NOT NULL,
+    CreatedAt       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
+)`);
+
+// ============ WORKSPACE ENDPOINTS ============
+
+// GET all workspaces
+app.get("/workspaces", (req, res) => {
+    db.all(`
+        SELECT w.*, p.Address as PropertyAddress 
+        FROM Workspaces w
+        LEFT JOIN Properties p ON w.PropertyID = p.PropertyID
+        ORDER BY w.CreatedAt DESC
+    `, [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// GET workspaces by property ID
+app.get("/workspaces/property/:propertyId", (req, res) => {
+    const propertyId = req.params.propertyId;
+    
+    db.all(`
+        SELECT * FROM Workspaces 
+        WHERE PropertyID = ?
+        ORDER BY CreatedAt DESC
+    `, [propertyId], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// POST a new workspace
+app.post("/workspaces", (req, res) => {
+    const { propertyId, workspaceType, seats, smoke, date, leaseTerm, dwm } = req.body;
+    
+    // Validate required fields
+    if (!workspaceType || !seats || !date || !leaseTerm || !dwm) {
+        return res.status(400).json({ 
+            error: "All fields are required!" 
+        });
+    }
+
+    db.run(`
+        INSERT INTO Workspaces 
+        (PropertyID, WorkspaceType, Seats, Smoke, DateAvailable, LeaseTerm, DWM)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `, [propertyId || null, workspaceType, seats, smoke, date, leaseTerm, dwm], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        
+        res.json({
+            message: "Workspace added successfully!",
+            workspaceID: this.lastID
+        });
+    });
+});
+
+// DELETE a workspace
+app.delete("/workspaces/:id", (req, res) => {
+    const workspaceId = req.params.id;
+
+    db.run("DELETE FROM Workspaces WHERE WorkspaceID = ?", [workspaceId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Workspace not found" });
+        }
+        res.json({ message: `Workspace with ID ${workspaceId} deleted successfully.` });
+    });
+});
+
+// UPDATE a workspace
+app.put("/workspaces/:id", (req, res) => {
+    const workspaceId = req.params.id;
+    const { propertyId, workspaceType, seats, smoke, date, leaseTerm, dwm } = req.body;
+
+    db.run(`
+        UPDATE Workspaces 
+        SET PropertyID = ?, WorkspaceType = ?, Seats = ?, Smoke = ?, 
+            DateAvailable = ?, LeaseTerm = ?, DWM = ?
+        WHERE WorkspaceID = ?
+    `, [propertyId, workspaceType, seats, smoke, date, leaseTerm, dwm, workspaceId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Workspace not found" });
+        }
+        res.json({ message: `Workspace with ID ${workspaceId} updated successfully.` });
+    });
+});
