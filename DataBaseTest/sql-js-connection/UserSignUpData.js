@@ -164,6 +164,23 @@ app.post("/Properties", (req, res) => {
     );
 });
 
+// update Propertiy
+
+app.put("/Properties/:PropertyID", (req, res) => {
+     const  PropertyID = req.params.PropertyID;
+    const { address, neighborhood, sqft, garage, transit } = req.body;
+
+    const sql = `
+        UPDATE Properties 
+        SET address = ?, 
+            neighborhood = ?, 
+            sqft = ?, 
+            garage = ?, 
+            transit = ?
+        WHERE PropertyID = ?
+    `;
+
+
 //delete section
 
 app.delete("/data/:id", (req, res) => {
@@ -173,7 +190,7 @@ app.delete("/data/:id", (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        // this.changes tells us how many rows were actually deleted
+        
         if (this.changes === 0) {
             return res.status(404).json({ message: "User not found" });
         }
