@@ -355,6 +355,25 @@ app.put("/Properties/:PropertyID", (req, res) => {
         WHERE PropertyID = ?
     `;
 
+    const params = [address, neighborhood, sqft, garage, transit, PropertyID];
+
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.error("Update Error:", err.message);
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Property not found." });
+        }
+
+        res.json({ 
+            message: "Property updated successfully!", 
+            rowsUpdated: this.changes 
+        });
+    });
+});
+
 
 //delete section
 
