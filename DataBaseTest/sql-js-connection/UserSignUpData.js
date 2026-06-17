@@ -164,6 +164,8 @@ app.post("/Properties", (req, res) => {
     );
 });
 
+//delete section
+
 app.delete("/data/:id", (req, res) => {
     const userId = req.params.id;
 
@@ -178,6 +180,21 @@ app.delete("/data/:id", (req, res) => {
         res.json({ message: `User with ID ${userId} deleted successfully.` });
     });
 });
+
+app.delete("/Properties/:PropertyID", (req, res) => {
+    const  PropertyID = req.params.PropertyID;
+
+    db.run("DELETE FROM Properties WHERE PropertyID = ?", [PropertyID], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Property not found" });
+        }
+        res.json({ message: `Property with ID ${PropertyID} deleted successfully.`});
+    });
+});
+ 
  
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
