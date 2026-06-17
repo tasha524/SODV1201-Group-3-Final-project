@@ -143,6 +143,68 @@ app.post("/Workspaces",(req,res)=>{
 
 });
 
+app.put("/Workspaces/:WorkspaceID", (req, res) => {
+
+    const WorkspaceID = req.params.WorkspaceID;
+
+    const {
+        PropertyID,
+        WorkspaceType,
+        Seats,
+        Smoke,
+        Date,
+        LeaseTerm,
+        LeaseTermUnit
+    } = req.body;
+
+    const sql = `
+        UPDATE Workspaces
+        SET PropertyID = ?,
+            WorkspaceType = ?,
+            Seats = ?,
+            Smoke = ?,
+            Date = ?,
+            LeaseTerm = ?,
+            LeaseTermUnit = ?
+        WHERE WorkspaceID = ?
+    `;
+
+    db.run(
+        sql,
+        [
+            PropertyID,
+            WorkspaceType,
+            Seats,
+            Smoke,
+            Date,
+            LeaseTerm,
+            LeaseTermUnit,
+            WorkspaceID
+        ],
+        function(err) {
+
+            if (err) {
+                return res.status(500).json({
+                    error: err.message
+                });
+            }
+
+            if (this.changes === 0) {
+                return res.status(404).json({
+                    message: "Workspace not found"
+                });
+            }
+
+            res.json({
+                message: "Workspace updated successfully",
+                rowsUpdated: this.changes
+            });
+
+        }
+    );
+
+});
+
 
  
     app.get("/", (req, res) => {
