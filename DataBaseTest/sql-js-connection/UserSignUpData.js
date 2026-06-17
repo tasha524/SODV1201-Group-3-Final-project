@@ -81,6 +81,69 @@ db.run(`CREATE TABLE IF NOT EXISTS Workspaces (
 
     FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
 )`);
+
+app.get("/Workspaces", (req,res)=>{
+
+    db.all("SELECT * FROM Workspaces",[],(err,rows)=>{
+
+        if(err){
+            return res.status(500).json({error:err.message});
+        }
+
+        res.json(rows);
+
+    });
+
+});
+
+app.post("/Workspaces",(req,res)=>{
+
+    const {
+        PropertyID,
+        WorkspaceType,
+        Seats,
+        Smoke,
+        Date,
+        LeaseTerm,
+        LeaseTermUnit
+    } = req.body;
+
+    db.run(
+
+        `INSERT INTO Workspaces
+        (PropertyID, WorkspaceType, Seats, Smoke, Date, LeaseTerm, LeaseTermUnit)
+        VALUES(?,?,?,?,?,?,?)`,
+
+        [
+            PropertyID,
+            WorkspaceType,
+            Seats,
+            Smoke,
+            Date,
+            LeaseTerm,
+            LeaseTermUnit
+        ],
+
+        function(err){
+
+            if(err){
+                return res.status(500).json({
+                    error:err.message
+                });
+            }
+
+            res.json({
+                message:"Workspace created",
+                WorkspaceID:this.lastID
+            });
+
+        }
+
+    );
+
+});
+
+
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
