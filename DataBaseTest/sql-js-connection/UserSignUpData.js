@@ -94,6 +94,42 @@ app.post("/Data", (req, res) => {
     })
 })
 
+// update user 
+
+app.put("/Data/:id", (req, res) => {
+    const userId = req.params.id; // Grabs the ID from the URL (e.g., /Data/1)
+    const { firstName, lastName, phone, email, password, role } = req.body;
+
+    const sql = `
+        UPDATE UserAccount 
+        SET FirstName = ?, 
+            LastName = ?, 
+            Phone = ?, 
+            Email = ?, 
+            Password = ?, 
+            Role = ?
+        WHERE UserID = ?
+    `;
+
+    const params = [firstName, lastName, phone, email, password, role, userId];
+
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.error("Update Error:", err.message);
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        res.json({ 
+            message: "User updated successfully!", 
+            rowsUpdated: this.changes 
+        });
+    });
+});
+
 //add propertiys
 
   app.get("/Properties", (req, res) => {
