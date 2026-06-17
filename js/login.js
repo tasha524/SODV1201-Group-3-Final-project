@@ -1,4 +1,4 @@
-// Use the correct endpoint - your server uses /login, not /api/login
+
 const API_URL = 'http://localhost:3001';
 
 function login() {
@@ -10,14 +10,14 @@ function login() {
         return;
     }
 
-    // Show loading
+  
     const loginButton = document.querySelector('button');
     const originalText = loginButton.textContent;
     loginButton.textContent = 'Logging in...';
     loginButton.disabled = true;
     
-    // CORRECTED: Use /login instead of /api/login
-    fetch(`${API_URL}/login`, {  // <-- Changed from '/api/login' to '/login'
+    
+    fetch(`${API_URL}/login`, {  
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -28,14 +28,14 @@ function login() {
     .then(async response => {
         console.log('Response status:', response.status);
         
-        // If response is not OK, get the error message
+       
         if (!response.ok) {
             const text = await response.text();
             console.error('Error response:', text);
             throw new Error(`Server error: ${response.status} - ${response.statusText}`);
         }
         
-        // Check if response is JSON
+       
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
@@ -49,13 +49,13 @@ function login() {
         console.log('Login response:', data);
         
         if (data.success) {
-            // Store token and user data
+           
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('loggedUser', JSON.stringify(data.user));
             
             alert('Login successful! Welcome ' + data.user.firstName + '!');
             
-            // Redirect to home page
+            
             window.location.href = '../index.html';
         } else {
             alert(data.error || 'Login failed');
@@ -71,7 +71,7 @@ function login() {
     });
 }
 
-// Enter key support
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('loginForm');
     if (form) {
