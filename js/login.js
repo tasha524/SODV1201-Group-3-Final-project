@@ -1,39 +1,55 @@
-const API_URL = 'http://localhost:3001'; 
+// Use the correct endpoint - your server uses /login, not /api/login
+const API_URL = 'http://localhost:3001';
 
 function login() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
     
     if (!email || !password) {
         alert('Please enter both email and password');
         return;
     }
 
-    // Show loading state
-    const loginButton = document.querySelector('button[onclick="login()"]');
-    if (loginButton) {
-        loginButton.textContent = 'Logging in...';
-        loginButton.disabled = true;
-    }
+    // Show loading
+    const loginButton = document.querySelector('button');
+    const originalText = loginButton.textContent;
+    loginButton.textContent = 'Logging in...';
+    loginButton.disabled = true;
     
-    
-    fetch(`${API_URL}/login`, {  
+    // CORRECTED: Use /login instead of /api/login
+    fetch(`${API_URL}/login`, {  // <-- Changed from '/api/login' to '/login'
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
         body: JSON.stringify({ email, password })
     })
-    .then(response => {
-        // Check if response is OK
+    .then(async response => {
+        console.log('Response status:', response.status);
+        
+        // If response is not OK, get the error message
         if (!response.ok) {
-            return response.json().then(err => {
-                throw new Error(err.error || `Server error: ${response.status}`);
-            });
+            const text = await response.text();
+            console.error('Error response:', text);
+            throw new Error(`Server error: ${response.status} - ${response.statusText}`);
         }
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Non-JSON response:', text.substring(0, 200));
+            throw new Error('Server returned HTML. Make sure the server is running correctly.');
+        }
+        
         return response.json();
     })
     .then(data => {
+        console.log('Login response:', data);
+        
         if (data.success) {
-            // Store the JWT token and user data
+            // Store token and user data
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('loggedUser', JSON.stringify(data.user));
             
@@ -50,15 +66,12 @@ function login() {
         alert('Error: ' + error.message);
     })
     .finally(() => {
-        // Reset button
-        if (loginButton) {
-            loginButton.textContent = 'Login';
-            loginButton.disabled = false;
-        }
+        loginButton.textContent = originalText;
+        loginButton.disabled = false;
     });
 }
 
-
+// Enter key support
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('loginForm');
     if (form) {
@@ -70,12 +83,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-
-if (localStorage.getItem('authToken')) {
-    const user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
-    if (user.firstName) {
-        console.log('Already logged in as:', user.firstName);
-        
-    }
-}
