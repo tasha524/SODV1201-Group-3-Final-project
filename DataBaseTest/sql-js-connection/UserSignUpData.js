@@ -42,6 +42,23 @@ db.run(`CREATE TABLE IF NOT EXISTS UserAccount (
     Password                        VARCHAR(50)			NOT NULL
 
 )`)
+
+db.run(`CREATE TABLE IF NOT EXISTS Properties (
+
+    PropertyID      INTEGER PRIMARY KEY AUTOINCREMENT,
+	
+    Address         VARCHAR(255)    NOT NULL,
+	
+    Neighborhood    VARCHAR(100)    NOT NULL,
+	
+    Sqft            INTEGER         NOT NULL,
+	
+    Garage          VARCHAR(10)     NOT NULL,
+	
+    Transit         VARCHAR(10)     NOT NULL,
+	
+    CreatedAt       DATETIME        DEFAULT CURRENT_TIMESTAMP
+)`);
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
@@ -76,6 +93,40 @@ app.post("/Data", (req, res) => {
         })
     })
 })
+
+//add propertiys
+
+  app.get("/Properties", (req, res) => {
+ 
+    db.all("SELECT * FROM Properties", [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({
+                error: err.message
+            });
+        }
+        res.json(rows);
+    });
+});
+app.post("/Properties", (req, res) => {
+    const { address, neighborhood, sqft, garage, transit } = req.body;
+   
+    db.run(`
+        INSERT INTO Properties
+        (Address, Neighborhood, Sqft, Garage, Transit)
+        VALUES (?, ?, ?, ?, ?)`, 
+        [address, neighborhood, sqft, garage, transit], 
+        function(err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+       
+            res.json({
+                message: "Property Added Successfully!",
+                PropertyID: this.lastID
+            });
+        }
+    );
+});
 
 app.delete("/data/:id", (req, res) => {
     const userId = req.params.id;
