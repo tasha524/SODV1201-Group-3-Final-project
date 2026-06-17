@@ -42,6 +42,23 @@ db.run(`CREATE TABLE IF NOT EXISTS UserAccount (
     Password                        VARCHAR(50)			NOT NULL
 
 )`)
+
+db.run(`CREATE TABLE IF NOT EXISTS Properties (
+
+    PropertyID      INTEGER PRIMARY KEY AUTOINCREMENT,
+	
+    Address         VARCHAR(255)    NOT NULL,
+	
+    Neighborhood    INTEGER         NOT NULL,
+	
+    Sqft            INTEGER         NOT NULL,
+	
+    Garage          VARCHAR(10)     NOT NULL,
+	
+    Transit         VARCHAR(10)     NOT NULL,
+	
+    CreatedAt       DATETIME        DEFAULT CURRENT_TIMESTAMP
+)`);
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
