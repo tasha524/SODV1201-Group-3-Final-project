@@ -205,7 +205,35 @@ app.put("/Workspaces/:WorkspaceID", (req, res) => {
 
 });
 
+app.delete("/Workspaces/:WorkspaceID", (req, res) => {
 
+    const WorkspaceID = req.params.WorkspaceID;
+
+    db.run(
+        "DELETE FROM Workspaces WHERE WorkspaceID = ?",
+        [WorkspaceID],
+        function(err) {
+
+            if (err) {
+                return res.status(500).json({
+                    error: err.message
+                });
+            }
+
+            if (this.changes === 0) {
+                return res.status(404).json({
+                    message: "Workspace not found"
+                });
+            }
+
+            res.json({
+                message: `Workspace ${WorkspaceID} deleted successfully`
+            });
+
+        }
+    );
+
+});
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
