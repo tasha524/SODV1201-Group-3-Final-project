@@ -59,6 +59,28 @@ db.run(`CREATE TABLE IF NOT EXISTS Properties (
 	
     CreatedAt       DATETIME        DEFAULT CURRENT_TIMESTAMP
 )`);
+db.run(`CREATE TABLE IF NOT EXISTS Workspaces (
+
+    WorkspaceID INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    PropertyID INT NOT NULL,
+
+    WorkspaceType VARCHAR(100) NOT NULL,
+
+    Seats INTEGER NOT NULL,
+
+    Smoke VARCHAR(10) NOT NULL,
+
+    Date DATE NOT NULL,
+
+    LeaseTerm INT NOT NULL,
+
+    LeaseTermUnit VARCHAR(10) NOT NULL,
+
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
+)`);
  
     app.get("/", (req, res) => {
         res.send("Data Base Test");
