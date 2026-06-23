@@ -92,3 +92,58 @@ function showDetails(id) {
     <p><strong>Contact:</strong> ${ws.ownerEmail}</p>
   `;
 }
+
+//delete user acount
+    const deleteButton = document.getElementById('deleteAcount');
+
+  deleteButton.addEventListener('click', function(event){
+    event.preventDefault();
+
+        const deleteEmail = document.getElementById('deleteEmail').value;
+    const deletePassword = document.getElementById('deletePassword').value;
+    const message = document.getElementById("formMessage");
+
+    if (!deleteEmail || !deletePassword) {
+        message.style.color = "red";
+        message.innerText = "Please enter both your email and password.";
+        return;
+    }
+
+    const credentials = { 
+        email: deleteEmail, 
+        password: deletePassword 
+    };
+
+     fetch("http://localhost:3001/data", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(response => {
+            if (!response.ok) {
+                //if the reponse was not good then throw an error
+                return response.json().then(err => { throw new Error(err.error) });
+            }
+            //else return the respone
+            return response.json();
+        })
+        .then(data => {
+            let userId = "Created successfully";
+
+            message.style.color = "green";
+            message.innerText = "Success! Account Deleted.";
+
+            document.getElementById('deleteEmail').value = '';
+        document.getElementById('deletePassword').value = '';
+
+        })
+        .catch(error => {
+            // if any errors are found
+            console.error("Deletion Error:", error);
+            message.style.color = "red";
+            message.innerText = "Error: " + error.message;
+        });
+
+});
