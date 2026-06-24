@@ -82,79 +82,99 @@ db.run(`CREATE TABLE IF NOT EXISTS Workspaces (
     FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID)
 )`);
 
-app.get("/Workspaces", (req,res)=>{
+// ============================================
+// WORKSPACES ROUTES
+// ============================================
 
-    db.all("SELECT * FROM Workspaces",[],(err,rows)=>{
-
-        if(err){
-            return res.status(500).json({error:err.message});
+app.get("/Workspaces", (req, res) => {
+    db.all("SELECT * FROM Workspaces", [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
         }
-
         res.json(rows);
-
     });
-
 });
 
-app.post("/Workspaces",(req,res)=>{
+app.post("/Workspaces", (req, res) => {
+    console.log("POST /Workspaces received");
+    console.log("Data received:", req.body);
 
     const {
-        PropertyID,
-        WorkspaceType,
-        Seats,
-        Smoke,
-        Date,
-        LeaseTerm,
-        LeaseTermUnit
+        propertySearch,  // ← Matches what your JavaScript sends
+        type,            // ← Matches what your JavaScript sends
+        seats,
+        smoke,
+        date,
+        term,            // ← Matches what your JavaScript sends
+        dwm              // ← Matches what your JavaScript sends
     } = req.body;
 
-    db.run(
+    // Validate all fields are present
+    if (!propertySearch || !type || !seats || !smoke || !date || !term || !dwm) {
+        console.error("Missing fields!");
+        return res.status(400).json({
+            error: "All fields are required"
+        });
+    }
 
-        `INSERT INTO Workspaces
-        (PropertyID, WorkspaceType, Seats, Smoke, Date, LeaseTerm, LeaseTermUnit)
-        VALUES(?,?,?,?,?,?,?)`,
-
-        [
-            PropertyID,
-            WorkspaceType,
-            Seats,
-            Smoke,
-            Date,
-            LeaseTerm,
-            LeaseTermUnit
-        ],
-
-        function(err){
-
-            if(err){
-                return res.status(500).json({
-                    error:err.message
-                });
-            }
-
-            res.json({
-                message:"Workspace created",
-                WorkspaceID:this.lastID
-            });
-
+    // Check if PropertyID exists
+    db.get("SELECT PropertyID FROM Properties WHERE PropertyID = ?", [propertySearch], (err, row) => {
+        if (err) {
+            console.error("Database error:", err.message);
+            return res.status(500).json({ error: err.message });
         }
 
-    );
+        if (!row) {
+            console.error(`❌ PropertyID ${propertySearch} does not exist!`);
+            return res.status(400).json({
+                error: `PropertyID ${propertySearch} does not exist. Please add a property first.`
+            });
+        }
 
+        console.log(`PropertyID ${propertySearch} exists!`);
+
+        // Insert the workspace
+        db.run(
+            `INSERT INTO Workspaces
+            (PropertyID, WorkspaceType, Seats, Smoke, Date, LeaseTerm, LeaseTermUnit)
+            VALUES(?, ?, ?, ?, ?, ?, ?)`,
+            [
+                propertySearch,  // ← These are the lowercase variables with values
+                type,
+                seats,
+                smoke,
+                date,
+                term,
+                dwm
+            ],
+            function(err) {
+                if (err) {
+                    console.error("Database error:", err.message);
+                    return res.status(500).json({
+                        error: err.message
+                    });
+                }
+
+                console.log("Workspace created with ID:", this.lastID);
+                res.json({
+                    message: "Workspace created",
+                    WorkspaceID: this.lastID
+                });
+            }
+        );
+    });
 });
 
 app.put("/Workspaces/:WorkspaceID", (req, res) => {
-
     const WorkspaceID = req.params.WorkspaceID;
-
     const {
-        PropertyID,
-        WorkspaceType,
-        Seats,
-        Smoke,
-        Date,
-        LeaseTerm,
-        LeaseTermUnit
+        propertySearch,
+        type,
+        seats,
+        smoke,
+        date,
+        term,
+        dwm
     } = req.body;
 
     const sql = `
@@ -172,67 +192,55 @@ app.put("/Workspaces/:WorkspaceID", (req, res) => {
     db.run(
         sql,
         [
-            PropertyID,
-            WorkspaceType,
-            Seats,
-            Smoke,
-            Date,
-            LeaseTerm,
-            LeaseTermUnit,
+            propertySearch,
+            type,
+            seats,
+            smoke,
+            date,
+            term,
+            dwm,
             WorkspaceID
         ],
         function(err) {
-
             if (err) {
                 return res.status(500).json({
                     error: err.message
                 });
             }
-
             if (this.changes === 0) {
                 return res.status(404).json({
                     message: "Workspace not found"
                 });
             }
-
             res.json({
                 message: "Workspace updated successfully",
                 rowsUpdated: this.changes
             });
-
         }
     );
-
 });
 
 app.delete("/Workspaces/:WorkspaceID", (req, res) => {
-
     const WorkspaceID = req.params.WorkspaceID;
-
     db.run(
         "DELETE FROM Workspaces WHERE WorkspaceID = ?",
         [WorkspaceID],
         function(err) {
-
             if (err) {
                 return res.status(500).json({
                     error: err.message
                 });
             }
-
             if (this.changes === 0) {
                 return res.status(404).json({
                     message: "Workspace not found"
                 });
             }
-
             res.json({
                 message: `Workspace ${WorkspaceID} deleted successfully`
             });
-
         }
     );
-
 });
  
     app.get("/", (req, res) => {
@@ -433,3 +441,4 @@ app.delete("/Properties/:PropertyID", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
