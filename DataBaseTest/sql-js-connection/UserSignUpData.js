@@ -442,3 +442,42 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
+// login 
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
+
+  db.get(
+    `SELECT * FROM UserAccount WHERE Email = ?`,
+    [email],
+    (err, user) => {
+      if (err) {
+        console.error("Database Error:", err.message);
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (!user) {
+        return res.status(400).json({ error: "User not found" });
+      }
+
+      const match = (password === user.Password);
+
+      if (!match) {
+        return res.status(400).json({ error: "Wrong Password" });
+      }
+
+      if (req.session) {
+        req.session.userId = user.UserID;
+        req.session.userName = user.FirstName;
+      }
+
+      return res.json({
+        message: "Login Successful",
+      });
+    }
+  );
+});
+
