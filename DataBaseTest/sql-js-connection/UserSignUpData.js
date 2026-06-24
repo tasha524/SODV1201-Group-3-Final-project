@@ -416,6 +416,7 @@ app.delete("/data/:id", (req, res) => {
 
 //delete user with email and password
 
+// delete user with email and password
 app.delete("/data", (req, res) => {
     const { email, password } = req.body;
 
@@ -423,17 +424,29 @@ app.delete("/data", (req, res) => {
         return res.status(400).json({ error: "Email and password are required." });
     }
     
-    const sql = "DELETE FROM UserAccount WHERE Email = ? AND Password = ?";
-
-    db.run(sql, [email, password], function(err) {
+    db.get("SELECT * FROM UserAccount WHERE Email = ?", 
+        [email], 
+        (err, user) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
         
-        if (this.changes === 0) {
-            return res.status(404).json({ error: "Invalid email or password. Account not found."});
+        if (!user) {
+            return res.status(44) 
+            return res.status(404).json({ error: "Invalid email or password. Account not found." });
         }
-        res.json({ message: `User deleted successfully.` });
+    
+        const match = bcrypt.compareSync(password, user.Password);
+        if (!match) {
+            return res.status(400).json({ error: "Invalid email or password. Account not found." });
+        }
+
+        db.run("DELETE FROM UserAccount WHERE UserID = ?", [user.UserID], function(err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ message: "User deleted successfully." });
+        });
     });
 });
 
