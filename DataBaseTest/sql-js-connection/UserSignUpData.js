@@ -477,7 +477,7 @@ app.post("/login", (req, res) => {
         return res.status(400).json({ error: "User not found" });
       }
 
-      const match = (password === user.Password);
+     const match = bcrypt.compareSync(password, user.Password);
 
       if (!match) {
         return res.status(400).json({ error: "Wrong Password" });
