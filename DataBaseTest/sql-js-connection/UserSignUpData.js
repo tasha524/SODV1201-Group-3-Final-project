@@ -12,6 +12,7 @@ const express = require("express");
 const cors = require("cors"); 
 const sqlite3 = require("sqlite3").verbose();
 const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
  
 const app = express();
 const PORT = 3001;
@@ -39,7 +40,7 @@ db.run(`CREATE TABLE IF NOT EXISTS UserAccount (
 
     Role                            VARCHAR(100)		NOT NULL,
 
-    Password                        VARCHAR(50)			NOT NULL
+    Password                        VARCHAR(255)			NOT NULL
 
 )`)
 
@@ -259,23 +260,36 @@ app.delete("/Workspaces/:WorkspaceID", (req, res) => {
     });
 });
  
-app.post("/Data", (req, res) => {
-    const {firstName, lastName, phone, email, password, role} = req.body;
-   
-    db.run(`
-        INSERT INTO UserAccount
-        (firstName, lastName, phone, email, password, role)
-        VALUES (?, ?, ?, ?, ?, ?)`, [firstName, lastName, phone, email, password, role], function(err){
-            if(err){
-                return res.status(500).json({error: err.message})
+app.post("/Data", async (req, res) => {
+    const { firstName, lastName, phone, email, password, role } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        console.log("PASSWORD:", password);
+        console.log("HASH:", hashedPassword);
+
+        db.run(
+            `INSERT INTO UserAccount
+            (FirstName, LastName, Phone, Email, Password, Role)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [firstName, lastName, phone, email, hashedPassword, role],
+            function(err) {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+
+                res.json({
+                    message: "Person Created",
+                    UserID: this.lastID
+                });
             }
-       
-        res.json({
-            message: "Person Created",
-            UserID: this.lastID
-        })
-    })
-})
+        );
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // update user 
 
@@ -441,43 +455,3 @@ app.delete("/Properties/:PropertyID", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-// login 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required." });
-  }
-
-  db.get(
-    `SELECT * FROM UserAccount WHERE Email = ?`,
-    [email],
-    (err, user) => {
-      if (err) {
-        console.error("Database Error:", err.message);
-        return res.status(500).json({ error: err.message });
-      }
-
-      if (!user) {
-        return res.status(400).json({ error: "User not found" });
-      }
-
-      const match = (password === user.Password);
-
-      if (!match) {
-        return res.status(400).json({ error: "Wrong Password" });
-      }
-
-      if (req.session) {
-        req.session.userId = user.UserID;
-        req.session.userName = user.FirstName;
-      }
-
-      return res.json({
-        message: "Login Successful",
-      });
-    }
-  );
-});
-
